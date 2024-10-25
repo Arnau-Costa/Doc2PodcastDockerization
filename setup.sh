@@ -21,7 +21,6 @@ EOF
 echo -e "${GREEN}${text}${NC}"
 
 
-# Step 1: Clone the repository
 echo "Cloning the repository..."
 if [ -d "$REPO_NAME" ]; then
   echo "Repository already exists. Skipping clone."
@@ -29,10 +28,8 @@ else
   git clone "$REPO_URL"
 fi
 
-# Change to the project directory
 cd "$REPO_NAME" || exit
 
-# Step 2: Create .env.local file
 echo "Creating .env.local file..."
 cat <<EOL > .env.local
 LANGFLOW_API_URL=http://langflow:7860
@@ -41,7 +38,6 @@ UPLOAD_FOLDER="uploads"
 GENERATED_AUDIO_FOLDER="generated_audio"
 EOL
 
-# Step 3: Create Dockerfile
 echo "Creating Dockerfile..."
 cat <<EOL > Dockerfile
 # Dockerfile
@@ -53,9 +49,10 @@ COPY . .
 EXPOSE 3000
 EOL
 
-# Step 4: Create docker-compose.yml file
 echo "Creating docker-compose.yml file..."
 cat <<EOL > docker-compose.yml
+version: '3.8'
+
 services:
   app:
     build:
@@ -72,16 +69,23 @@ services:
       GENERATED_AUDIO_FOLDER: "/app/generated_audio"
     depends_on:
       - langflow
+    networks:
+      - app-network  # Add app to the shared network
 
   langflow:
-    image: langflowai/langflow:latest
+    image: langflow:latest
     ports:
       - "7860:7860"
     volumes:
       - ./langflow_data:/data
+    networks:
+      - app-network  # Add Langflow to the shared network
+
+networks:
+  app-network:
+    driver: bridge
 EOL
 
-# Step 5: Run Docker Compose
 echo "Building and running Docker containers..."
 docker compose up --build -d
 
