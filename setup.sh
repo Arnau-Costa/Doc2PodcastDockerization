@@ -2,7 +2,7 @@
 
 REPO_URL="https://github.com/misbahsy/Doc2Podcast.git"
 REPO_NAME="Doc2Podcast"
-FLOW_ID="your_flow_id_here"
+FLOW_ID="Doc2Podcast"
 
 
 GREEN='\033[0;32m'
