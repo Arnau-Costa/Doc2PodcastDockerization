@@ -70,16 +70,16 @@ services:
     depends_on:
       - langflow
     networks:
-      - app-network  # Add app to the shared network
+      - app-network
 
   langflow:
-    image: langflow:latest
+    image: langflowai/langflow:latest
     ports:
       - "7860:7860"
     volumes:
       - ./langflow_data:/data
     networks:
-      - app-network  # Add Langflow to the shared network
+      - app-network
 
 networks:
   app-network:
