@@ -55,8 +55,6 @@ EOL
 # Step 4: Create docker-compose.yml file
 echo "Creating docker-compose.yml file..."
 cat <<EOL > docker-compose.yml
-version: '3.8'
-
 services:
   app:
     build:

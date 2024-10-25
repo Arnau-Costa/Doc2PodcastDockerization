@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+    command: ["npm", "run", "dev"]
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      LANGFLOW_API_URL: "http://langflow:7860"
+      FLOW_ID: "your_flow_id_here"
+      UPLOAD_FOLDER: "/app/uploads"
+      GENERATED_AUDIO_FOLDER: "/app/generated_audio"
+    depends_on:
+      - langflow
+
+  langflow:
+    image: langflowai/langflow:latest
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./langflow_data:/data
