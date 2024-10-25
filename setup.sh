@@ -82,6 +82,6 @@ EOL
 
 # Step 5: Run Docker Compose
 echo "Building and running Docker containers..."
-docker-compose up --build -d
+docker compose up --build -d
 
 echo "Setup complete! Access the app at http://localhost:3000 and Langflow at http://localhost:7860."
